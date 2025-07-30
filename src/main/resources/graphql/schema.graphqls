@@ -1,0 +1,52 @@
+# Import extended scalars
+scalar DateTime
+scalar PositiveInt
+
+type User {
+    id: ID!
+    name: String!
+    username: String!
+    email: String!
+    phone: String
+    website: String
+}
+type Post {
+    id: ID!
+    userId: ID!
+    title: String!
+    body: String!
+    comments: [Comment!]!
+}
+
+type Comment {
+    id: ID!
+    postId: ID!
+    name: String!
+    email: String!
+    body: String!
+}
+
+type UserWithPosts {
+    user: User
+    posts: [Post!]!
+    totalPosts: Int!
+    totalComments: Int!
+}
+
+
+# Define the User type with various fields
+type Query{
+    # Get user by ID from JSONPlaceholder
+    user(id: ID!): User
+    users: [User!]!
+
+    #Get posts with optional limit
+    posts(limit:PositiveInt =10 ): [Post!]!
+
+    # Get post by ID
+    post(id: ID!): Post
+
+    # Aggregated data - combines user info with their posts
+    userWithPosts(id: ID!): User
+
+}
