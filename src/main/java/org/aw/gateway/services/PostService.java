@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aw.gateway.model.Comment;
 import org.aw.gateway.model.Post;
 import org.springframework.core.ParameterizedTypeReference;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
@@ -46,6 +45,7 @@ public class PostService {
             post.setComments(new ArrayList<>());
         }
     }
+
     private List<Comment> getCommentsByPostId(Long postId) {
         try {
             List<Comment> comments = jsonPlaceholderRestClient
@@ -90,7 +90,9 @@ public class PostService {
             throw new RuntimeException("Failed to fetch all posts", e);
         }
     }
+
     public List<Post> getPostsByUserId(Long userId) {
+        log.info("Fetching posts with comment  for userId: {}", userId);
         try {
             List<Post> posts = jsonPlaceholderRestClient
                     .get()
@@ -99,7 +101,8 @@ public class PostService {
                             .queryParam("userId", userId)
                             .build())
                     .retrieve()
-                    .body(new ParameterizedTypeReference<List<Post>>() {});
+                    .body(new ParameterizedTypeReference<List<Post>>() {
+                    });
 
             if (posts != null) {
                 posts.forEach(this::enrichPostWithComments);

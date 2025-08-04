@@ -32,11 +32,13 @@ public class GraphQLController {
     public List<Post> posts() {
         return postService.getAllPosts(10);
     }
+
     @QueryMapping
     public List<User> users() {
         log.info("GraphQL query: users");
         return userService.getAllUsers().collectList().block();
     }
+
     @QueryMapping
     public Post post(@Argument Long id) {
         log.info("GraphQL query: post(id: {})", id);
@@ -48,22 +50,19 @@ public class GraphQLController {
         log.info("Fetching user with posts for userId: {}", userId);
         User user = null;
         List<Post> userPosts = null;
-        List<Post> posts = postService.getPostsByUserId(userId);
 
-        try(var executor = Executors.newVirtualThreadPerTaskExecutor()){
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
             var userFuture = executor.submit(() -> userService.getUserById(userId));
             var postsFuture = executor.submit(() -> postService.getPostsByUserId(userId));
-             user = userFuture.get().block();
-             userPosts = postsFuture.get();
-        }
-
-         catch (ExecutionException e) {
+            user = userFuture.get().block();
+            userPosts = postsFuture.get();
+        } catch (ExecutionException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        int totalComments = posts.stream().map(post -> post.getComments() != null ? post.getComments().size() : 0)
-                .reduce(0, Integer::sum);
+        int totalComments = userPosts.stream().map(post -> post.getComments() != null ? post.getComments().size() : 0)
+                                     .reduce(0, Integer::sum);
 
 
         return new UserWithPosts(user, userPosts, userPosts.size(), totalComments);

@@ -47,6 +47,6 @@ type Query{
     post(id: ID!): Post
 
     # Aggregated data - combines user info with their posts
-    userWithPosts(id: ID!): User
+    getUserWithPosts(userId: ID!): UserWithPosts
 
 }
