@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+
 public class PostService {
     private final RestClient jsonPlaceholderRestClient;
 
@@ -45,6 +46,7 @@ public class PostService {
             post.setComments(new ArrayList<>());
         }
     }
+
 
     private List<Comment> getCommentsByPostId(Long postId) {
         try {

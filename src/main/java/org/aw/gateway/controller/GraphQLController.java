@@ -1,5 +1,6 @@
 package org.aw.gateway.controller;
 
+import io.micrometer.observation.annotation.Observed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aw.gateway.model.Post;
@@ -46,6 +47,8 @@ public class GraphQLController {
     }
 
     @QueryMapping
+    @Observed(name = "posts.load-all-posts", contextualName = "post.find-all")
+
     public UserWithPosts getUserWithPosts(@Argument Long userId) {
         log.info("Fetching user with posts for userId: {}", userId);
         User user = null;

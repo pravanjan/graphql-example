@@ -26,11 +26,14 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-graphql")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.5.4")
+
+    implementation("io.micrometer:micrometer-tracing-bridge-brave")
+    implementation("io.zipkin.reporter2:zipkin-reporter-brave")
+    implementation("org.springframework.boot:spring-boot-starter-aop:3.5.4")
+    implementation("org.springframework.boot:spring-boot-starter-security:3.5.4")
+
     implementation("com.graphql-java:graphql-java-extended-scalars:22.0")
-    implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter:1.37.0")
-
-    implementation("io.opentelemetry:opentelemetry-exporter-zipkin:1.37.0")
-
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
