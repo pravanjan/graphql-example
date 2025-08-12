@@ -41,7 +41,7 @@ type Query{
     users: [User!]!
 
     #Get posts with optional limit
-    posts(limit:PositiveInt =10 ): [Post!]!
+    posts(limit:PositiveInt =200 ): [Post!]!
 
     # Get post by ID
     post(id: ID!): Post

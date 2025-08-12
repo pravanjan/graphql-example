@@ -28,4 +28,4 @@ server:
 logging:
   level:
     root: INFO
-    com.example: DEBUG
+    org.aw.gateway: DEBUG

@@ -1,6 +1,5 @@
 package org.aw.gateway.controller;
 
-import io.micrometer.observation.annotation.Observed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aw.gateway.model.Post;
@@ -10,6 +9,7 @@ import org.aw.gateway.services.PostService;
 import org.aw.gateway.services.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -30,11 +30,13 @@ public class GraphQLController {
     }
 
     @QueryMapping
+    @Secured("ROLE_USER")
     public List<Post> posts() {
-        return postService.getAllPosts(10);
+        return postService.getAllPosts(20);
     }
 
     @QueryMapping
+    @Secured("ROLE_USER")
     public List<User> users() {
         log.info("GraphQL query: users");
         return userService.getAllUsers().collectList().block();
@@ -47,8 +49,6 @@ public class GraphQLController {
     }
 
     @QueryMapping
-    @Observed(name = "posts.load-all-posts", contextualName = "post.find-all")
-
     public UserWithPosts getUserWithPosts(@Argument Long userId) {
         log.info("Fetching user with posts for userId: {}", userId);
         User user = null;
