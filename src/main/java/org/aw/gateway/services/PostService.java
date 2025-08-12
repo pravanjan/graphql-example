@@ -2,6 +2,7 @@ package org.aw.gateway.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aw.gateway.controller.PostInput;
 import org.aw.gateway.model.Comment;
 import org.aw.gateway.model.Post;
 import org.springframework.core.ParameterizedTypeReference;
@@ -18,6 +19,26 @@ import java.util.List;
 
 public class PostService {
     private final RestClient jsonPlaceholderRestClient;
+
+    public Post createPost(PostInput postInput) {
+        try {
+            log.info("Creating post: {}", postInput);
+            Post createdPost = jsonPlaceholderRestClient
+                    .post()
+                    .uri("/posts")
+                    .body(postInput)
+                    .retrieve()
+                    .body(Post.class);
+
+            if (createdPost != null) {
+                enrichPostWithComments(createdPost);
+            }
+            return createdPost;
+        } catch (RestClientException e) {
+            log.error("Error creating post: {}", e.getMessage());
+            throw new RuntimeException("Failed to create post", e);
+        }
+    }
 
     public Post getPostById(Long id) {
         try {

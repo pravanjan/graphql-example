@@ -8,6 +8,7 @@ import org.aw.gateway.model.UserWithPosts;
 import org.aw.gateway.services.PostService;
 import org.aw.gateway.services.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -30,13 +31,11 @@ public class GraphQLController {
     }
 
     @QueryMapping
-    @Secured("ROLE_USER")
     public List<Post> posts() {
         return postService.getAllPosts(20);
     }
 
     @QueryMapping
-    @Secured("ROLE_USER")
     public List<User> users() {
         log.info("GraphQL query: users");
         return userService.getAllUsers().collectList().block();
@@ -46,6 +45,13 @@ public class GraphQLController {
     public Post post(@Argument Long id) {
         log.info("GraphQL query: post(id: {})", id);
         return postService.getPostById(id);
+    }
+
+    @MutationMapping
+    @Secured("ROLE_ADMIN")
+    public Post createPost(@Argument PostInput postInput) {
+        log.info("GraphQL mutation: createPost(input: {})", postInput);
+        return postService.createPost(postInput);
     }
 
     @QueryMapping

@@ -11,12 +11,10 @@ public class DemoAuthService {
 
         if (token.startsWith("demo-admin")) {
 
-            return new AuthUserDetail("admin", "accountId", Set.of("ADMIN_ROLE"));
+            return new AuthUserDetail("admin", "accountId", Set.of("ADMIN"));
+        } else {
+            return new AuthUserDetail("user", "accountId", Set.of("USER"));
         }
-        if (token.startsWith("demo-user")) {
-            return new AuthUserDetail("user", "accountId", Set.of("USER_ROLE"));
-        }
-        return null;
     }
 
 

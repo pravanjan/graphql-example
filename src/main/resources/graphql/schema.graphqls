@@ -3,8 +3,7 @@ scalar DateTime
 scalar PositiveInt
 
 type User {
-    id: ID!
-    name: String!
+  
     username: String!
     email: String!
     phone: String
@@ -49,4 +48,17 @@ type Query{
     # Aggregated data - combines user info with their posts
     getUserWithPosts(userId: ID!): UserWithPosts
 
+}
+
+type Mutation {
+    # Create a new post
+    createPost(postInput: PostInput!): Post!
+
+}
+
+# Input type for creating a new post
+input PostInput {
+    title: String!
+    body: String!
+    userId: ID!
 }
