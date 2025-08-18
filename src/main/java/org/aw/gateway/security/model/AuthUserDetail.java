@@ -1,4 +1,4 @@
-package org.aw.gateway.services;
+package org.aw.gateway.security.model;
 
 import java.util.Set;
 

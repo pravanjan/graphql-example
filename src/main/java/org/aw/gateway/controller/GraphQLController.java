@@ -48,7 +48,7 @@ public class GraphQLController {
     }
 
     @MutationMapping
-    @Secured("ROLE_ADMIN")
+    @Secured("SCOPE_ADMIN")
     public Post createPost(@Argument PostInput postInput) {
         log.info("GraphQL mutation: createPost(input: {})", postInput);
         return postService.createPost(postInput);

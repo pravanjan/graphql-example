@@ -1,4 +1,4 @@
-package org.aw.gateway.services;
+package org.aw.gateway.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

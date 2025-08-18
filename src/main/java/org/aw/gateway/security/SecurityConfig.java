@@ -1,8 +1,6 @@
-package org.aw.gateway.config;
+package org.aw.gateway.security;
 
 import lombok.RequiredArgsConstructor;
-import org.aw.gateway.services.CustomAuthenticationEntryPoint;
-import org.aw.gateway.services.CustomJwtAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
